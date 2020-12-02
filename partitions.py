@@ -30,11 +30,19 @@ def get_individual_gt(i):
     return genotype[:, i]
 
 
+def count_genotypes(marker):
+    for i in gt:
+        cnt[i] = cnt[i]+1
+    
+    print("   -> Genotype count of marker %d   n0: %d  n1: %d  n2: %d" % ( marker, cnt[0],cnt[1],cnt[2]))
+
+
 ##
 ## Read genotypes
 ## 
 
 fname = "gt-1000genomes-chr2-2000markers.csv"
+#fname = "chr1-2504-dense-2000genotypes.csv"
 
 df, genotype = read_genotypes(fname)
 #genotype = genotype[:,0:1000]
@@ -80,12 +88,6 @@ print_partitions(partitions)
 ## 
 
    
-def count_genotypes(marker):
-    for i in gt:
-        cnt[i] = cnt[i]+1
-    
-    print("   -> Genotype count of marker %d   n0: %d  n1: %d  n2: %d" % ( marker, cnt[0],cnt[1],cnt[2]))
-
 
 def split_partitions(position):
 
@@ -138,8 +140,8 @@ def split_partitions(position):
 
 
 
-## Iterate over 30 markers
-for i in range(0,180):
+## Iterate over 500 markers
+for i in range(0,500):
     partitions = split_partitions(i)
     print_partitions(partitions)
 
@@ -159,8 +161,9 @@ for i in partitions:
 print("Matches = ", matches)
 
 cols = df.columns.tolist()
+
+matches.sort()
 for i in matches:
     print ( cols[ i ], "  index=",i)
-
 
 print("Number of individuals that have a match with " , cols[ref_individual], " = ",  nmatching)
